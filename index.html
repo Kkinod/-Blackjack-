@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlackJack</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>BlackJack</h1>
+    </header>
+    <section class="blackJack">
+        <div class="table">
+            <div class="table-msg">
+                <div class="message"></div>
+                <button class="button new-game" onclick="location.reload();">Nowa Gra</button>
+            </div>
+
+            <!-- <h2>Karty krupiera</h2> -->
+            <div class="dealerPoints"></div>
+            <div class="dealersCards">
+                <!-- <div class="points">
+                    <div class="dealerPoints"></div>
+                </div> -->
+            </div>
+
+            <!-- <h2>Twoje karty</h2> -->
+            <div class="playerPoints"></div>
+            <div class="playersCards">
+                <!-- <div class="points"> -->
+                    <!-- <div class="playersCards"></div> -->
+                <!-- </div> -->
+            </div>
+
+        </div>
+        <div class="buttons">
+            <button class="button hit">Hit</button>
+            <button class="button stand">Stand</button>
+        </div>
+    </section>
+    <script src="app/function.js" type="module"></script>
+    <!-- <script src="app/Game.js" type="module"></script> -->
+
+</body>
+
+
+
+
+</html>
