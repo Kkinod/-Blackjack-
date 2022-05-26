@@ -1,5 +1,3 @@
-// import { Player } from "./Player"
-
 const playerCards = document.querySelector('.playersCards')
 const playerPoints = document.querySelector('.playerPoints')
 const dealerCards = document.querySelector('.dealersCards')
@@ -22,13 +20,13 @@ const typesToSign = {
 	clubs: '♣',
 }
 
-// -----------------------------------------
-// Tworzymy pustą talię
 const cards = []
+const handPlayer = []
+const handDealer = []
+let pointsPlayer = 0
+let pointsDealer = 0
 
-//------------------------------------------
-
-// Tworzymy kartę
+// "Empty" card
 class Card {
 	constructor(weight, type) {
 		this.weight = weight
@@ -36,7 +34,7 @@ class Card {
 	}
 }
 
-// Dodawanie karty do HTML
+// Add players cards to HTML
 const renderCards = cardDrawn => {
 	const card = document.createElement('div')
 	card.setAttribute('class', `card ${cardDrawn.type}`)
@@ -46,17 +44,10 @@ const renderCards = cardDrawn => {
 	return card
 }
 
-//------------------------------------------
-
-// Przechodzimy po tablicy "Weights" oraz "Types" i łączymy we wszystkich kombinacjach (52) po czym dodajemy do talii
+// Creating deck
 Types.forEach(type => Weights.forEach(weight => cards.push(new Card(weight, type))))
 
-// console.log(cards);
-// cards = 52 kartowa talia
-//------------------------------------------
-//------------------------------------------
-
-// "Tasujemy" "cards"
+// Deck shuffling
 const shuffle = () => {
 	for (let i = cards.length - 1; i > 0; i--) {
 		const randomCard = Math.floor(Math.random() * i)
@@ -67,99 +58,30 @@ const shuffle = () => {
 	return cards
 }
 
-// console.log(shuffle());
-// i zwracamy "cards" "potasowane"
-//------------------------------------------
-
-// GRACZ
-// const player = [{
-// 	hand: []
-// }]
-
-const handPlayer = []
-const handDealer = []
-// console.log(handPlayer)
-
-// console.log(handPlayer[0]);
-// console.log(handPlayer[0].type);
-// const test = () => {
-// 	return 2;
-// }
-
-// console.log(handPlayer.filter(test));
-// console.log(handPlayer[0].type);
-
-// const countPts = (type) => {
-// 	return handPlayer.filter(card => card.type == type).lenght
-// }
-// countPts('spades')
-
-// handPlayer.forEach(card => {console.log(card)})
-
-// console.log(countPts());
-// const hand = []
-let pointsPlayer = 0
-let pointsDealer = 0
-
-//------------------------------------------
-
-// Bierzemy jedną kartę z góry i zwracamy ją
+// Taking one card from the top of the deck
 const pickOne = () => {
 	return cards.shift()
 }
-//------------------------------------------
 
-// RĘKA - dodawanie kart
-// Jednak chyba nie potrzebuję tej funkcji
-// const addCard = card => {
-// 	 return hand.push(card)
-// }
-//------------------------------------------
-
-// ROZDAWANIE KART na starcie
+// Dealing cards
 const dealCards = () => {
 	for (let n = 0; n < 2; n++) {
 		const card1 = pickOne()
-		// const hand = addCard(card1)
 		handPlayer.push(card1)
 		playerCards.appendChild(renderCards(card1))
 
 		const card2 = pickOne()
-		// addCard(card2)
 		handDealer.push(card2)
 		dealerCards.appendChild(renderCards(card2))
-		// console.log(handDealer);
 	}
-
-	// const pointsHand = handPlayer.map(pts => {
-	// 	if (['K', 'Q', 'J'].includes(pts.weight)) {
-	// 		return 10
-	// 	}
-
-	// 	if (handPlayer.length == 2 && pts.weight == 'A') {
-	// 		return 11
-	// 	}
-
-	// 	if (handPlayer.length > 2 && pts.weight == 'A') {
-	// 		return 11
-	// 	}
-
-	// 	return parseInt(pts.weight)
-
-	// })
-
-	// pointsPlayer = pointsHand.reduce(function (sum, weight) {
-	// 	return parseInt(sum) + parseInt(weight)
-	// })
-
-	// console.log(pointsPlayer);
-	// return pointsPlayer
 }
 
+// Hand weight counting
 const countCardsByWeight = (weight, hand) => {
 	return hand.filter(card => card.weight == weight).length
 }
 
+// Hand point counting
 const pointsHand = indicatedHand => {
 	if (countCardsByWeight('A', indicatedHand) == 2 && indicatedHand.lenght == 2) {
 		return 21
@@ -188,6 +110,7 @@ const pointsHand = indicatedHand => {
 	return pointsPlayer
 }
 
+// Player draws a card
 const playerDrawsCard = () => {
 	if (pointsHand(handPlayer) <= 21) {
 		const newCard = pickOne()
@@ -199,7 +122,7 @@ const playerDrawsCard = () => {
 	}
 
 	if (pointsHand(handPlayer) > 21) {
-		msgFinish.innerHTML = 'WygrywaDealer'
+		msgFinish.innerHTML = 'Dealer win!'
 		msgFinish.style.display = 'block'
 		btnNewGame.style.display = 'block'
 		btnHit.style.display = 'none'
@@ -207,6 +130,7 @@ const playerDrawsCard = () => {
 	}
 }
 
+// Action after click Stand Btn by the player
 const dealerPlay = () => {
 	while (
 		pointsHand(handDealer) <= pointsHand(handPlayer) &&
@@ -224,6 +148,7 @@ const dealerPlay = () => {
 	endGame()
 }
 
+// End game
 const endGame = () => {
 	btnHit.style.display = 'none'
 	btnStand.style.display = 'none'
@@ -237,7 +162,7 @@ const endGame = () => {
 	}
 
 	if (pointsHand(handDealer) > 21) {
-		msgFinish.innerHTML = 'WYGRYWASZ'
+		msgFinish.innerHTML = 'YOU WIN!'
 		msgFinish.style.display = 'block'
 		btnNewGame.style.display = 'block'
 
@@ -245,7 +170,7 @@ const endGame = () => {
 	}
 
 	if (pointsHand(handPlayer) < pointsHand(handDealer)) {
-		msgFinish.innerHTML = 'Wygrywa Dealer'
+		msgFinish.innerHTML = 'Dealer win!'
 		msgFinish.style.display = 'block'
 		btnNewGame.style.display = 'block'
 
@@ -253,8 +178,7 @@ const endGame = () => {
 	}
 }
 
-//------------------------------------------
-
+// Start game
 const startGame = () => {
 	// Chyba lepiej będzie jak "przechodzenie po tablicy" zrobi się w funkcji i doda jej wywołanie tutja na początek
 	shuffle()
@@ -271,4 +195,4 @@ startGame()
 
 btnHit.addEventListener('click', playerDrawsCard)
 btnStand.addEventListener('click', dealerPlay)
-//------------------------------------------
+
