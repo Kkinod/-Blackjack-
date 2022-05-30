@@ -34,6 +34,24 @@ class Card {
 	}
 }
 
+// Start game
+const startGame = () => {
+	createDeck()
+	shuffle()
+	dealCards()
+
+	const calcPlayerPoints = pointsHand(handPlayer)
+	const calcDealerPoints = pointsHand(handDealer)
+
+	playerPoints.innerHTML = calcPlayerPoints
+	dealerPoints.innerHTML = calcDealerPoints
+}
+
+// Creating deck
+const createDeck = () => {
+	Types.forEach(type => Weights.forEach(weight => cards.push(new Card(weight, type))))
+}
+
 // Add players cards to HTML
 const renderCards = cardDrawn => {
 	const card = document.createElement('div')
@@ -43,9 +61,6 @@ const renderCards = cardDrawn => {
 	card.dataset.value = `${cardDrawn.weight}${typesToSign[cardDrawn.type]}`
 	return card
 }
-
-// Creating deck
-Types.forEach(type => Weights.forEach(weight => cards.push(new Card(weight, type))))
 
 // Deck shuffling
 const shuffle = () => {
@@ -145,11 +160,11 @@ const dealerPlay = () => {
 		dealerPoints.innerHTML = ptsAfterNewCard
 	}
 
-	endGame()
+	GameOver()
 }
 
 // End game
-const endGame = () => {
+const GameOver = () => {
 	btnHit.style.display = 'none'
 	btnStand.style.display = 'none'
 
@@ -178,21 +193,7 @@ const endGame = () => {
 	}
 }
 
-// Start game
-const startGame = () => {
-	// Chyba lepiej będzie jak "przechodzenie po tablicy" zrobi się w funkcji i doda jej wywołanie tutja na początek
-	shuffle()
-	dealCards()
-
-	const calcPlayerPoints = pointsHand(handPlayer)
-	const calcDealerPoints = pointsHand(handDealer)
-
-	playerPoints.innerHTML = calcPlayerPoints
-	dealerPoints.innerHTML = calcDealerPoints
-}
-
-startGame()
-
 btnHit.addEventListener('click', playerDrawsCard)
 btnStand.addEventListener('click', dealerPlay)
 
+document.addEventListener('DOMContentLoaded', startGame)
