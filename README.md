@@ -5,8 +5,7 @@ This is my first slightly larger project, a Blackjack style game. using function
 
 There are still a few minor differences between the original BlackJack but this will be fine tuned.
 
-<a href="https://kkinod.github.io/-Blackjack-" >LIVE</a> version.
-
 Any suggestions are welcome!
 
+<a href="https://kkinod.github.io/-Blackjack-" >LIVE</a> version.
 Have fun!
